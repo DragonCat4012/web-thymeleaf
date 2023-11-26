@@ -1,0 +1,12 @@
+{
+    "configurations": [{
+        "type": "java",
+        "name": "Spring Boot-StartWebApplication<web-thymeleaf>",
+        "request": "launch",
+        "cwd": "${workspaceFolder}",
+        "mainClass": "com.mkyong.StartWebApplication",
+        "projectName": "web-thymeleaf",
+        "args": "",
+        "envFile": "${workspaceFolder}/.env"
+    }]
+}
