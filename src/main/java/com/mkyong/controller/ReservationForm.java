@@ -1,10 +1,23 @@
 package com.mkyong.controller;
 
-public class ReservationForm {
-    private int idk = 0;
+import java.time.LocalDateTime;
 
-    public void a(int e) {
-        System.out.println("eeeeeeeeeeeeeee");
-        System.out.println(e);
+import org.springframework.format.annotation.DateTimeFormat;
+
+public class ReservationForm {
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    private LocalDateTime date;
+
+    public ReservationForm(LocalDateTime date) {
+        this.date = LocalDateTime.now();
     }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
 }

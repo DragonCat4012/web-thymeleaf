@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
 
     <title>Spring Boot Thymeleaf Hello World Example</title>
 
@@ -14,24 +15,46 @@
 
 <body>
 
-    <form>
-        <button type="submit"></button>
-
+    <form th:object="${form}">
         <div>
-            <div class="alleyContainer" th:each="entry, it : ${listAlleys}" th:with="index = ${it.count}">
-                <!-- th:classappend="${entry.getType()}" -->
-                <div class="alleyContainer grid-alleyContainer">
-                    <h>idk</h>
-
-                    <button class="btn" id="${entry}" th:id="${entry}" th:text="b" th:onclick="${form.a(entry)}">
-                        Book Lane
-                    </button>
-                </div>
-
-            </div>
+            <label for="reservation-date"></label>
+            <input class="formContent" type="datetime-local" th:field="*{date}"
+                th:onchange="reloadAlleyOptions(this.getAttribute('data-date'))" th:data-date="*{date}" />
         </div>
+
+        <button type="submit"></button>
 
     </form>
 </body>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+<script>
+    $(document).bind("ajaxSend", function () {
+        console.log("waiting for all requests to complete...");
+        // ajaxStop (Global Event)
+        // This global event is triggered if there are no more Ajax requests being processed.
+    }).bind("ajaxStop", function () {
+        // maybe reload here?
+        location.reload();
+    });
+
+    function reloadAlleyOptions(date) {
+        console.log(date)
+        console.log("---")
+        $.ajax({
+            method: "post",
+            type: "POST",
+            url: "/hello/a?date=" + date,
+            success: function (response) {
+
+            },
+            error: function (e) {}
+        });
+    }
+</script>
+
+
 
 </html>
