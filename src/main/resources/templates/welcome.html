@@ -7,51 +7,38 @@
     <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
 
     <title>Spring Boot Thymeleaf Hello World Example</title>
-
-    <link rel="stylesheet" th:href="@{webjars/bootstrap/4.2.1/css/bootstrap.min.css}" />
-    <link rel="stylesheet" th:href="@{/css/main.css}" />
-
 </head>
 
 <body>
-    <form th:object="${form}">
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <input id="datepicker" type="datetime-local" name="date" placeholder="Date" data-target="#Datetimepicker" />
+
+    <form>
+        <td th:text="${#dates.format(date, 'dd.mm.yyyy HH:mm')}"></td>
+        
         <div id="datetimepicker1" data-target-input="nearest">
-            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"
-                th:field="*{date}" id="date" placeholder="Date" />
-            <div data-target="#datetimepicker1" data-toggle="datetimepicker">
+           <div data-target="#date" data-toggle="datetimepicker">
+            <input type="datetime-local" class="form-control datetimepicker-input" data-target="#datetimepicker1" 
+            th:value="${#dates.format(date, 'yyyy-MM-dd HH:mm')}" id="datetimepicker1" placeholder="Date" 
+            th:onchange="reloadAlleyOptions(this.getAttribute('data-date'))" th:data-date="*{date}"/>
                 <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
             </div>
         </div>
-
-        <button type="submit"></button>
     </form>
 </body>
-<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
-<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-<script th:src="@{/assets/moment/moment.min.js}"></script>
-<script th:src="@{/assets/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.js}"></script>
 
 <script>
-    /*   $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
-        icons: {
-            time: 'far fa-clock',
-            date: 'far fa-calendar',
-            up: 'fas fa-arrow-up',
-            down: 'fas fa-arrow-down',
-            previous: 'fas fa-chevron-left',
-            next: 'fas fa-chevron-right',
-            today: 'far fa-calendar-check-o',
-            clear: 'far fa-trash',
-            close: 'far fa-times'
-        }
-    });*/
-    $(".date").datetimepicker({
+​
+    $("#datetimepicker1").datetimepicker({
         onSelect: function () {
             console.log("a")
-            //  $(this).change();
         }
     });
+
+    $('#datepicker').datepicker()
+    .on("input change", function (e) {
+    console.log("Date changed: ", e.target.value);
+});
 
     $.fn.datetimepicker({
         onSelect: function (dateText) {
@@ -59,15 +46,17 @@
         }
     });
 
-    $('#datetimepicker1').datetimepicker({
-        format: 'DD/MM/YYYY h:mm'
-    });
+    function idk(i) {
+        console.log(i)
+    }
 </script>
 
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-
 <script>
+    $('#datepicker').datepicker()
+    .on("input change", function (e) {
+    console.log("Date changed: ", e.target.value);
+});
+
     $(document).bind("ajaxSend", function () {
         console.log("waiting for all requests to complete...");
     }).bind("ajaxStop", function () {

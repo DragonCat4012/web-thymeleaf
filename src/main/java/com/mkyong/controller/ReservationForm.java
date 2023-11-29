@@ -8,7 +8,7 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class ReservationForm {
-    @DateTimeFormat(pattern = "dd/MM/yyyy h:mm")
+    @DateTimeFormat(pattern = "dd/MM/yyyy hh:mm")
     private LocalDateTime date;
 
     public ReservationForm(LocalDateTime date) {
