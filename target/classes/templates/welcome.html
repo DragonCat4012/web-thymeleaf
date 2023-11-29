@@ -27,34 +27,12 @@
     </form>
 </body>
 
-<script>
-​
-    $("#datetimepicker1").datetimepicker({
-        onSelect: function () {
-            console.log("a")
-        }
-    });
 
-    $('#datepicker').datepicker()
-    .on("input change", function (e) {
-    console.log("Date changed: ", e.target.value);
-});
-
-    $.fn.datetimepicker({
-        onSelect: function (dateText) {
-            console.log("Selected date: " + dateText + "; input's current value: " + this.value);
-        }
-    });
-
-    function idk(i) {
-        console.log(i)
-    }
-</script>
 
 <script>
     $('#datepicker').datepicker()
     .on("input change", function (e) {
-    console.log("Date changed: ", e.target.value);
+    console.log("Date2 changed: ", e.target.value);
 });
 
     $(document).bind("ajaxSend", function () {
@@ -62,6 +40,10 @@
     }).bind("ajaxStop", function () {
         location.reload();
     });
+
+    function idk(i) {
+        console.log(i)
+    }
 
     function reloadAlleyOptions(date) {
         console.log(date)
