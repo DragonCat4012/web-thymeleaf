@@ -14,18 +14,55 @@
 </head>
 
 <body>
-
     <form th:object="${form}">
-        <div>
-            <label for="reservation-date"></label>
-            <input class="formContent" type="datetime-local" th:field="*{date}"
-                th:onchange="reloadAlleyOptions(this.getAttribute('data-date'))" th:data-date="*{date}" />
+        <div id="datetimepicker1" data-target-input="nearest">
+            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"
+                th:field="*{date}" id="date" placeholder="Date" />
+            <div data-target="#datetimepicker1" data-toggle="datetimepicker">
+                <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
+            </div>
         </div>
 
         <button type="submit"></button>
-
     </form>
 </body>
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/assets/moment/moment.min.js}"></script>
+<script th:src="@{/assets/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.js}"></script>
+
+<script>
+    /*   $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
+        icons: {
+            time: 'far fa-clock',
+            date: 'far fa-calendar',
+            up: 'fas fa-arrow-up',
+            down: 'fas fa-arrow-down',
+            previous: 'fas fa-chevron-left',
+            next: 'fas fa-chevron-right',
+            today: 'far fa-calendar-check-o',
+            clear: 'far fa-trash',
+            close: 'far fa-times'
+        }
+    });*/
+    $(".date").datetimepicker({
+        onSelect: function () {
+            console.log("a")
+            //  $(this).change();
+        }
+    });
+
+    $.fn.datetimepicker({
+        onSelect: function (dateText) {
+            console.log("Selected date: " + dateText + "; input's current value: " + this.value);
+        }
+    });
+
+    $('#datetimepicker1').datetimepicker({
+        format: 'DD/MM/YYYY h:mm'
+    });
+</script>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -33,10 +70,7 @@
 <script>
     $(document).bind("ajaxSend", function () {
         console.log("waiting for all requests to complete...");
-        // ajaxStop (Global Event)
-        // This global event is triggered if there are no more Ajax requests being processed.
     }).bind("ajaxStop", function () {
-        // maybe reload here?
         location.reload();
     });
 
@@ -46,7 +80,7 @@
         $.ajax({
             method: "post",
             type: "POST",
-            url: "/hello/a?date=" + date,
+            url: "/welcome/a?date=" + date,
             success: function (response) {
 
             },
@@ -54,7 +88,5 @@
         });
     }
 </script>
-
-
 
 </html>

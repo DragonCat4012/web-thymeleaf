@@ -1,11 +1,14 @@
 package com.mkyong.controller;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class ReservationForm {
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    @DateTimeFormat(pattern = "dd/MM/yyyy h:mm")
     private LocalDateTime date;
 
     public ReservationForm(LocalDateTime date) {
@@ -17,7 +20,12 @@ public class ReservationForm {
     }
 
     public void setDate(LocalDateTime date) {
+        System.out.println(date);
+        System.out.println(">>>");
         this.date = date;
     }
 
+    public void setDate(String date) {
+        this.date = LocalDateTime.now();
+    }
 }
