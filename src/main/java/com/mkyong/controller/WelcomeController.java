@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class WelcomeController {
     private Date dat = new Date();
-    private int openingHour = 10;
-    private int closingHour = 20;
+    public static int openingHour = 10;
+    public static int closingHour = 20;
 
     @GetMapping("/welcome")
     public String mainWithParam(
@@ -24,7 +24,16 @@ public class WelcomeController {
         model.addAttribute("date", dat);
         model.addAttribute("dates", colums);
         model.addAttribute("alleys", alleys(colums.size()));
+        model.addAttribute("alleysArr", al(colums.size()));
         return "welcome";
+    }
+
+    public List<Alley> al(int timeslots) {
+        List<Alley> arr = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            arr.add(new Alley(3, 3, timeslots));
+        }
+        return arr;
     }
 
     @PostMapping("/welcome/a")
@@ -61,17 +70,16 @@ public class WelcomeController {
     }
 
     private List<Date> initTimeslotsFromSelectedTime(long date) {
-        long selected = getCleanDate(1701435600);
         List<Date> arr = new ArrayList<>();
-        int openingTime = 13;
-        int closingTime = 13;
 
-        int hour = 1000 * 60 * 60 * 60;
-
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 10; i++) {
             Calendar cal = Calendar.getInstance();
             cal.setTime(new Date(date));
             cal.add(Calendar.HOUR_OF_DAY, 1 * i);
+
+            if (cal.get(Calendar.HOUR) > closingHour) {
+                continue;
+            }
             arr.add(cleanDate(cal.getTime()));
         }
         return arr;
