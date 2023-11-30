@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
-
     <title>Spring Boot Thymeleaf Hello World Example</title>
 </head>
 
@@ -18,10 +17,43 @@
         <option id="NinePin">Nine Pin</option>
     </select>
 
+    <p>TODO: max people: </p>
+
+
+    <table>
+        <tr>
+            <th>Timeslots</th>
+            <th th:each="entry, it : ${dates}" th:with="index = ${it.count}">
+                <p class="card" th:id="entry+${entry}" th:text="${#dates.format(entry, 'HH:mm')}"></p>
+            </th>
+        </tr>
+
+
+        <tr>
+            <td>alley 1</td>
+        <td th:each="entry, it : ${alleys}" th:with="index = ${it.count}">
+           
+            <div class="card" th:id="entry+${entry}">
+                <button th:onclick="bookTimeslot(this.getAttribute('data-date'))"  th:data-date="*{entry}"></button>
+            </div>
+        </td>
+        </tr>
+      
+
+        <tr>
+            <td>alley 2</td>
+        <td th:each="entry, it : ${alleys}" th:with="index = ${it.count}">
+           
+            <div class="card" th:id="entry+${entry}">
+                <button th:onclick="bookTimeslot(this.getAttribute('data-date'))"  th:data-date="*{entry}"></button>
+            </div>
+        </td>
+        </tr>
+
     <!-- working stuff above-->
 
     <form>
-        <td th:text="${#dates.format(date, 'dd.mm.yyyy HH:mm')}"></td>
+        <td th:text="${#dates.format(date, 'dd.MM.yyyy HH:mm')}"></td>
         <div id="datetimepicker1" data-target-input="nearest">
            <div data-target="#date" data-toggle="datetimepicker">
             <input type="datetime-local" class="form-control datetimepicker-input" data-target="#datetimepicker1" 
@@ -47,8 +79,17 @@
         location.reload();
     });
 
-    function idk(i) {
+    function bookTimeslot(i) {
         console.log(i)
+        $.ajax({
+            method: "post",
+            type: "POST",
+            url: "/welcome/d?slot=" + i,
+            success: function (response) {
+
+            },
+            error: function (e) {}
+        });
     }
 
     function reloadAlleyOptions(date) {
