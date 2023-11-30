@@ -10,7 +10,6 @@
 
 <body>
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-    <input id="datepicker" type="datetime-local" name="date" placeholder="Date" data-target="#Datetimepicker" />
 
     <select id="typeSelection" onchange="selectType();" onfocus="this.selectedIndex = -1;">
         <option id="Bowling">Bowling</option>
@@ -25,27 +24,19 @@
             </th>
         </tr>
 
-
-        <tr>
-            <td>alley 1</td>
-        <td th:each="entry, it : ${alleys}" th:with="index = ${it.count}">
+        
+        <tr th:each="a, it : ${alleysArr}" th:with="index1 = ${it.count}">
+            <td th:text="'Alley '+ ${index1}">alley 1</td>
+        <td th:each="entry, it : ${a.getSlots()}" th:with="index = ${it.count}">
            
             <div class="card" th:id="entry+${entry}">
-                <button th:onclick="bookTimeslot(this.getAttribute('data-date'))"  th:data-date="*{entry}"></button>
+                <button th:if="${entry.isBooked()}" th:onclick="bookTimeslot(this.getAttribute('data-slot'), this.getAttribute('data-alley'))" th:data-slot="*{index}" th:data-alley="*{index1}"></button>
+                <p th:unless="${entry.isBooked()}">x</p>
             </div>
         </td>
         </tr>
-      
 
-        <tr>
-            <td>alley 2</td>
-        <td th:each="entry, it : ${alleys}" th:with="index = ${it.count}">
-           
-            <div class="card" th:id="entry+${entry}">
-                <button th:onclick="bookTimeslot(this.getAttribute('data-date'))"  th:data-date="*{entry}"></button>
-            </div>
-        </td>
-        </tr>
+
 
     <!-- working stuff above-->
 
@@ -76,12 +67,12 @@
         location.reload();
     });
 
-    function bookTimeslot(i) {
-        console.log(i)
+    function bookTimeslot(slotIndex, alley) {
+        console.log(slotIndex, alley)
         $.ajax({
             method: "post",
             type: "POST",
-            url: "/welcome/d?slot=" + i,
+            url: "/welcome/d?slot=" + slotIndex + "?alley=" + alley,
             success: function (response) {
 
             },

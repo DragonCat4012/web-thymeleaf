@@ -39,8 +39,11 @@ public class WelcomeController {
     @PostMapping("/welcome/a")
     public String datePickerOnChange(Model model,
             @RequestParam String date) {
+        List<Date> colums = initTimeslotsFromSelectedTime(dat.getTime());
         System.out.println(date); //Wed Nov 29 14:01:31 CET 2023
-
+        model.addAttribute("dates", colums);
+        model.addAttribute("alleys", alleys(colums.size()));
+        model.addAttribute("alleysArr", al(colums.size()));
         // TODO: date = newDate;
         return "welcome";
     }
@@ -49,15 +52,19 @@ public class WelcomeController {
     public String typeOnchange(Model model,
             @RequestParam String type) {
         System.out.println(type);
-
+        List<Date> colums = initTimeslotsFromSelectedTime(dat.getTime());
+        model.addAttribute("dates", colums);
+        model.addAttribute("alleys", alleys(colums.size()));
+        model.addAttribute("alleysArr", al(colums.size()));
         return "welcome";
     }
 
     @PostMapping("/welcome/d")
     public String bokTimeslot(Model model,
-            @RequestParam String slot) {
-        System.out.println(slot);
-
+            @RequestParam int slotIndex, @RequestParam int alleyID) {
+        System.out.println(slotIndex - 1);
+        System.out.println(alleyID);
+        //TODO: set timeslot to booked
         return "welcome";
     }
 
