@@ -27,4 +27,12 @@ public class WelcomeController {
         // TODO: date = newDate;
         return "welcome";
     }
+
+    @PostMapping("/welcome/b")
+    public String typeOnchange(Model model,
+            @RequestParam String type) {
+        System.out.println(type);
+
+        return "welcome";
+    }
 }

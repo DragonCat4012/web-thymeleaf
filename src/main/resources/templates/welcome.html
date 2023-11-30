@@ -13,9 +13,15 @@
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
     <input id="datepicker" type="datetime-local" name="date" placeholder="Date" data-target="#Datetimepicker" />
 
+    <select id="typeSelection" onchange="selectType();" onfocus="this.selectedIndex = -1;">
+        <option id="Bowling">Bowling</option>
+        <option id="NinePin">Nine Pin</option>
+    </select>
+
+    <!-- working stuff above-->
+
     <form>
         <td th:text="${#dates.format(date, 'dd.mm.yyyy HH:mm')}"></td>
-        
         <div id="datetimepicker1" data-target-input="nearest">
            <div data-target="#date" data-toggle="datetimepicker">
             <input type="datetime-local" class="form-control datetimepicker-input" data-target="#datetimepicker1" 
@@ -52,6 +58,21 @@
             method: "post",
             type: "POST",
             url: "/welcome/a?date=" + date,
+            success: function (response) {
+
+            },
+            error: function (e) {}
+        });
+    }
+
+    function selectType() {
+        let type = document.getElementById('typeSelection').selectedOptions[0].text
+
+        console.log(type)
+        $.ajax({
+            method: "post",
+            type: "POST",
+            url: "/welcome/b?type=" + type,
             success: function (response) {
 
             },
